@@ -1,5 +1,8 @@
 #include <iostream>
 
+void merge(int* arr, int l, int m, int r);
+void mergeSort(int* arr, int l, int r);
+
 int main()
 {
     int n = 6;
@@ -10,7 +13,7 @@ int main()
         std::cout << arr[i] << ' ';
     std::cout << std::endl;
 
-    //mergeSort(arr, , );
+    mergeSort(arr, 0, n-1);
 
     for (size_t i = 0; i < n; ++i)
     {
@@ -39,15 +42,12 @@ void mergeSort(int* arr, int l, int r)
 
 void merge(int* arr, int l, int m, int r)
 {
-    // вычисляем размер левой и правой части массивов
     int nl = m - l + 1;
     int nr = r - m;
 
-    // создаём временные массивы
     int left[nl];
     int right[nr];
 
-    // копируем данные во временные массивы
     for (int i = 0; i < nl; ++i)
     {
         left[i] = arr[l + i];
@@ -57,33 +57,36 @@ void merge(int* arr, int l, int m, int r)
         right[j] = arr[m + j + 1];
     }
     
-    //инициализируем индексы
     int i = 0;
     int j = 0;
-    int k = l; // начало левой части
+    int k = l;
 
-    //записываем минимальные эл-ты обратно во вхдной массив
     while (i < nl && j < nr)
     {
-        if (left[i] < right[i])
+        if (left[i] <= right[j])
         {
-            arr[k++] = left[i++];
+            arr[k] = left[i];
+            i++;
         }
         else
         {
-            arr[k++] = right[j];
+            arr[k] = right[j];
+            j++;
         }
+        k++;
     }
 
-    // записываем оставшиеся элементы левой части
     while (i < nl)
     {
-        arr[k++] = left[i++];
+        arr[k] = left[i];
+        i++;
+        k++;
     }
 
-    //записываем оставшиеся элементы в правой части
     while (j < nr)
     {
-        arr[k++] = right[j++];
+        arr[k] = right[j];
+        j++;
+        k++;
     }
 }
